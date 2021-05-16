@@ -1,6 +1,9 @@
 import numpy as np
 import random
 from library.main import Individual, BasePopulation
+import library.genetic_algorithm.selection as sel
+import library.genetic_algorithm.mutation as mut
+import library.genetic_algorithm.crossover as co
 
 T_DICT = {
     "I": [(0, 0), (1, 0), (2, 0), (3, 0)],
@@ -83,15 +86,18 @@ def get_piece_coordinates(piece: str):
     return c
 
 
-def pieces_generator(grid_shape: tuple):
+def pieces_generator(grid_shape: tuple, rotation=True):
     n_filled = 0
     max_fitness = grid_shape[0]* grid_shape[1]
     pieces = []
 
     while n_filled < max_fitness:
         piece_type = random.choice(list(T_DICT.keys()))
-        piece_rotation = str(random.randint(1, 4))
-        pieces.append(piece_type + piece_rotation)
+        if rotation:
+            piece_rotation = str(random.randint(1, 4))
+            pieces.append(piece_type + piece_rotation)
+        else:
+            pieces.append(piece_type)
         n_filled += 4
     return pieces
 
@@ -103,7 +109,7 @@ class Population(BasePopulation):
         optimization: str,
         n_elites: int,
         valid_set: list,
-        grid_shape: int,
+        grid_shape: tuple,
     ):
         super().__init__(
             individuals, optimization, n_elites=n_elites, valid_set=valid_set
@@ -134,3 +140,47 @@ class Population(BasePopulation):
         for i, indv in enumerate(neighbours):
             indv[i], indv[i + 1] = indv[i + 1], indv[i]
         individual.neighbours = [Individual(n) for n in neighbours]
+
+    def selection(self, *args, **kwargs):
+        return sel.tournament(self, *args, **kwargs)
+
+    def orientation_mutation(self, representation: list, p_mutation: float) -> list:
+        for i, (letter, number) in enumerate(representation):
+            if random.random() <= p_mutation:
+                valid_set_c = [0, 1, 2, 3]
+                valid_set_c.remove(int(number))
+                representation[i] = letter + str(random.choice(valid_set_c))
+        return representation
+
+    def mutation(self, representation, p_mutation, n_mutations) -> list:
+        representation = mut.swap_mutation(representation, p_mutation, n_mutations)
+        representation = self.orientation_mutation(representation, p_mutation)
+        return representation
+
+    def crossover(self, p1, p2, p_crossover: float):
+        if random.random() < p_crossover:
+            p1_dict = {i: l+str(n) for i, (l, n) in enumerate(p1)}
+            tmp = p1_dict.copy()
+            p2_dict = {}
+            for i, (l, n) in enumerate(p2):
+                for key, value in tmp.items():
+                    if value[0] == l:
+                        p2_dict[key] = l+str(n)
+                        del tmp[key]
+                        break
+            p1_encoded = list(p1_dict.keys())
+            p2_encoded = list(p2_dict.keys())
+            o1, o2 = co.pmx_co(p1_encoded, p2_encoded)
+            for i, o in enumerate(o1):
+                if o == p1_encoded[i]:
+                    o1[i] = p1_dict[o]
+                else:
+                    o1[i] = p2_dict[o]
+            for i, o in enumerate(o2):
+                if o == p2_encoded[i]:
+                    o2[i] = p2_dict[o]
+                else:
+                    o2[i] = p1_dict[o]
+            return o1, o2
+        else:
+            return p1, p2
