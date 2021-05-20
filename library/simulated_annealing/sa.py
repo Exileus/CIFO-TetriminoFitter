@@ -1,5 +1,5 @@
 import random, math, copy
-from main import BasePopulation, Individual
+from library.main import BasePopulation, Individual
 
 
 def simulated_annealing(

@@ -1,5 +1,5 @@
 import random, copy
-from main import BasePopulation, Individual
+from library.main import BasePopulation, Individual
 import numpy as np
 
 
