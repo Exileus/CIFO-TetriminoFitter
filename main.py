@@ -4,6 +4,7 @@ from library.main import Individual, BasePopulation
 import library.genetic_algorithm.selection as sel
 import library.genetic_algorithm.mutation as mut
 import library.genetic_algorithm.crossover as co
+from sklearn.metrics.pairwise import manhattan_distances
 
 T_DICT = {
     "I": [(0, 0), (1, 0), (2, 0), (3, 0)],
@@ -125,9 +126,16 @@ class Population(BasePopulation):
         # simplify code
         rep = individual.representation
         # calculate fitness
-        f, _ = tetrimino_fitter(rep, self.grid_shape)
+        grid, _ = tetrimino_fitter(rep, self.grid_shape)
+
+        empties = np.column_stack(
+            np.where(grid == 0)
+        ) 
+
+        # The closer the empty spaces are, the smaller the distances.
+        apartness_fit = np.sum(manhattan_distances(empties))
         # update individual's fitness
-        individual.fitness = np.sum(f)
+        individual.fitness = np.sum(grid) * 100 - apartness_fit
 
     def neighbours(self, individual: Individual):
         """Generate neighbors of individual by swapping each node pair.
@@ -154,7 +162,7 @@ class Population(BasePopulation):
 
     def mutation(self, representation, p_mutation, n_mutations) -> list:
         representation = mut.swap_mutation(representation, p_mutation, n_mutations)
-        representation = self.orientation_mutation(representation, p_mutation)
+        # representation = self.orientation_mutation(representation, p_mutation)
         return representation
 
     def crossover(self, p1, p2, p_crossover: float):
@@ -184,3 +192,18 @@ class Population(BasePopulation):
             return o1, o2
         else:
             return p1, p2
+
+    def adoption(self, p_adoption: float) -> Individual:
+        """How likely some parents can adopt an Individual
+
+        Args:
+            p_adoption (float): Probability of parents adopting an individual
+
+        Returns:
+            Individual
+        """
+        if random.random() <= p_adoption:
+            return Individual([piece+str(random.randint(0, 3)) for piece in random.sample(self.valid_set, len(self.valid_set))])
+
+def generate_individual(valid_list):
+    return Individual([letter+str(random.randint(0, 3)) for letter in random.sample(valid_list, len(valid_list))])
