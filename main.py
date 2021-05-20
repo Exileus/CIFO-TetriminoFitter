@@ -17,17 +17,16 @@ T_DICT = {
 }
 
 
-def tetrimino_fitter(pieces: list, grid_shape: tuple, verbose: bool = False):
-    """Fits all pieces into the grid.
+def tetrimino_fitter(pieces: list, grid_shape: tuple, verbose: bool = False) -> tuple:
+    """Fits all pieces into a grid with a given shape.
 
     Args:
-        pieces (str): piece to fit
-        grid (np.array, optional): Grid expects an array. Defaults to None.
-        pieces_coordinates (list, optional): [description]. Defaults to [].
-        verbose (bool, optional): [description]. Defaults to False.
+        pieces (list): List with piece type and rotation as str
+        grid_shape (tuple): (x, y)
+        verbose (bool, optional): Defaults to False.
 
     Returns:
-        grid, pieces_coordinates: Returns the grid with the "fitted" pieces and list with piece coordinates.
+        (tuple): Filled grid, pieces' coordinates
     """
     # Create pieces_coordinates list
     pieces_coordinates = []
