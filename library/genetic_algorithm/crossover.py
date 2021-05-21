@@ -9,8 +9,32 @@ def single_point_co(p1: list, p2: list):
 
     return offspring1, offspring2
 
-# TODO: Not working
+
 def cycle_co(p1: list, p2: list) -> tuple:
+    # Randomly choose a parent to start the cycle
+    if random.random() <= 0.5:
+        p1, p2 = p2, p1
+    r_len = len(p1)
+    offspring1, offspring2 = {}, {}
+    keys = offspring1.keys()
+    idx = 0
+    while len(keys) < r_len:
+        if idx in keys:
+            idx = min(list(set(range(r_len)) - set(keys)))
+            p1, p2 = p2, p1
+        else:
+            offspring1[idx] = p1[idx]
+            offspring2[idx] = p2[idx]
+            idx = p2.index(p1[idx])
+    print(offspring1)
+    print(r_len)
+    o1 = [offspring1[i] for i in range(r_len)]
+    print(o1)
+    o2 = [offspring2[i] for i in range(r_len)]
+    return o1, o2
+
+# TODO: Not working but has potential?
+def cycle_co2(p1: list, p2: list) -> tuple:
     r_len = len(p1)
     offspring1, offspring2 = {}, {}
     keys = offspring1.keys()
@@ -38,29 +62,38 @@ def arithmetic_co(p1: list, p2: list) -> tuple:
 
 def pmx_co(p1: list, p2: list) -> tuple:
     idx1, idx2 = sorted(random.sample(range(len(p1)), 2))
+
     def get_offspring(main_p, sec_p):
         o = main_p.copy()
         o_dict = {}
-        segment_mp = main_p[idx1:idx2]
-        segment_sp = sec_p[idx1:idx2]
-        for i, n in enumerate(segment_sp):
-            if n not in segment_mp:
-                o_dict[o.index(n)] = segment_mp[i]
-            else:
-                o_dict[o.index(segment_mp[i])] = segment_mp[i]        
-        o[idx1:idx2] = segment_sp
-        for i, v in o_dict.items():
-            o[i] = v
-        return o
+        # create window
+        window_p1 = main_p[idx1:idx2]
+        window_p2 = sec_p[idx1:idx2]
+        mapping_p2 = {n: window_p1[i] for i, n in enumerate(window_p2)}
+        o_dict = {i: sec_p[i] for i in range(idx1, idx2)}
+        for i, n in enumerate(o):
+            if i not in o_dict:
+                if n not in window_p2:
+                    o_dict[i] = n
+                else:
+                    m = mapping_p2[n]
+                    while m in window_p2:
+                        m = mapping_p2[m]
+                    o_dict[i] = m
+
+        return [o_dict[i] for i in sorted(o_dict)]
+
     o1 = get_offspring(p1, p2)
     o2 = get_offspring(p2, p1)
     return o1, o2
+
 
 def crisp_co(p1: list, p2: list) -> tuple:
     idx1, idx2 = sorted(random.sample(range(len(p1)), 2))
     o1, o2 = p1, p2
     o1[idx1:idx2], o2[idx1:idx2] = p2[idx1:idx2], p1[idx1:idx2]
     return o1, o2
+
 
 def gene_co(p1: list, p2: list, p_co: float) -> tuple:
     o1, o2 = p1, p2
@@ -70,9 +103,9 @@ def gene_co(p1: list, p2: list, p_co: float) -> tuple:
             o2[i] = p1[i]
     return o1, o2
 
-if __name__ == "__main__":
-    p1 = [0, 1, 2, 3, 4, 5, 6, 7]
-    p2 = [1, 6, 7, 2, 0, 3, 5, 4]
 
-    print(pmx_co(p1, p2))
-    
+if __name__ == "__main__":
+    mate1 = [3, 4, 8, 2, 7, 1, 6, 5]
+    mate2 = [4, 2, 5, 1, 6, 8, 3, 7]
+
+    print(cycle_co(mate1, mate2))

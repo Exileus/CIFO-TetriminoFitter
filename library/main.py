@@ -26,8 +26,7 @@ class BasePopulation:
         self.n_elites = n_elites
         self.valid_set = valid_set
         self.fitness_history = []
-        if n_elites > 0:
-            self.elites = []
+        self.elites = []
         if self.optimization not in ["min", "max"]:
             raise ValueError("Set optimization to min or max.")
 

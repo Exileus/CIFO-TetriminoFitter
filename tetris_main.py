@@ -126,13 +126,14 @@ class Population(BasePopulation):
         rep = individual.representation
         # calculate fitness
         grid, _ = tetrimino_fitter(rep, self.grid_shape)
-
-        empties = np.column_stack(
-            np.where(grid == 0)
-        ) 
-
-        # The closer the empty spaces are, the smaller the distances.
-        apartness_fit = np.sum(manhattan_distances(empties))
+        if 0 in grid:
+            empties = np.column_stack(
+                np.where(grid == 0)
+            ) 
+            # The closer the empty spaces are, the smaller the distances.
+            apartness_fit = np.sum(manhattan_distances(empties))
+        else:
+            apartness_fit = 0
         # update individual's fitness
         individual.fitness = np.sum(grid) * 100 - apartness_fit
 
@@ -166,6 +167,7 @@ class Population(BasePopulation):
 
     def crossover(self, p1, p2, p_crossover: float):
         if random.random() < p_crossover:
+            # Creating index system
             p1_dict = {i: l+str(n) for i, (l, n) in enumerate(p1)}
             tmp = p1_dict.copy()
             p2_dict = {}
@@ -177,7 +179,9 @@ class Population(BasePopulation):
                         break
             p1_encoded = list(p1_dict.keys())
             p2_encoded = list(p2_dict.keys())
+            # run crossover
             o1, o2 = co.pmx_co(p1_encoded, p2_encoded)
+            # Recreate from index
             for i, o in enumerate(o1):
                 if o == p1_encoded[i]:
                     o1[i] = p1_dict[o]

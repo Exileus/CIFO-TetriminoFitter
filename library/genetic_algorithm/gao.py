@@ -2,7 +2,7 @@ import random, copy
 from library.main import Individual
 import numpy as np
 
-# TODO: I don't think it's storing the elites properly and carrying them to the next generation without mutations
+
 def GAO(
     pop,
     generations: int,
@@ -28,9 +28,9 @@ def GAO(
         )
         # Check if we want elitism and how many elites we keep
         if pop.n_elites > 0:
-            pop_prime = copy.deepcopy(sorted(
-                pop.individuals, key=lambda i: i.fitness * m, reverse=True
-            ))[:pop.n_elites]
+            pop_prime = copy.deepcopy(
+                sorted(pop.individuals, key=lambda i: i.fitness * m, reverse=True)
+            )[: pop.n_elites]
             if verbose:
                 print("elite @ prime:", pop_prime)
         else:
@@ -61,6 +61,19 @@ def GAO(
         pop.individuals = copy.deepcopy(pop_prime)
         if verbose:
             print(sorted(pop.individuals, key=lambda i: i.fitness * m, reverse=True))
-        pop.elites = copy.deepcopy(sorted(pop.individuals, key=lambda i: i.fitness * m, reverse=True)[:pop.n_elites])
+
+        # Sort all individuals by fitness
+        elites = copy.deepcopy(
+            sorted(pop.individuals, key=lambda i: i.fitness * m, reverse=True)
+        )
+
+        # if we're using elitism, keep the best N elites
+        if pop.n_elites > 0:
+            pop.elites = elites[: pop.n_elites]
+
+        # keep the best individual of population
+        else:
+            pop.elites = elites[0]
+
         if verbose:
             print()
