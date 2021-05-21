@@ -1,3 +1,4 @@
+from library.hill_climbing.hc import hill_climb
 import numpy as np
 import random
 from library.main import Individual, BasePopulation
@@ -208,5 +209,8 @@ class Population(BasePopulation):
         if random.random() <= p_adoption:
             return Individual([piece+str(random.randint(0, 3)) for piece in random.sample(self.valid_set, len(self.valid_set))])
 
-def generate_individual(valid_list):
-    return Individual([letter+str(random.randint(0, 3)) for letter in random.sample(valid_list, len(valid_list))])
+def generate_individual(valid_list: list, grid_shape: tuple) -> Individual:
+    ind = [Individual([letter+str(random.randint(0, 3)) for letter in random.sample(valid_list, len(valid_list))])]
+    pop = Population(ind, "max", n_elites=1, valid_set=valid_list, grid_shape=grid_shape)
+    hill_climb(pop, hardstop=5)
+    return pop.elites[0]
