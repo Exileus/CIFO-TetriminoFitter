@@ -127,16 +127,17 @@ class Population(BasePopulation):
         rep = individual.representation
         # calculate fitness
         grid, _ = tetrimino_fitter(rep, self.grid_shape)
+        occupation_fitness =  np.sum(grid) * 100
         if 0 in grid:
             empties = np.column_stack(
                 np.where(grid == 0)
             ) 
             # The closer the empty spaces are, the smaller the distances.
-            apartness_fit = np.sum(manhattan_distances(empties))
+            separation_fitness = np.sum(manhattan_distances(empties))
         else:
-            apartness_fit = 0
+            separation_fitness = 0
         # update individual's fitness
-        individual.fitness = np.sum(grid) * 100 - apartness_fit
+        individual.fitness = occupation_fitness - separation_fitness
 
     def neighbours(self, individual: Individual):
         """Generate neighbors of individual by swapping each node pair.
