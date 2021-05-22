@@ -44,7 +44,6 @@ def tetrimino_fitter(pieces: list, grid_shape: tuple, verbose: bool = False) -> 
             np.where(grid == 0)
         )  # this can be used to find the coordinates of all the zeros, and have them stored.
         for coord in free_space_array:
-            occupied_space_array = np.column_stack(np.where(grid == 1))
             if verbose:
                 print(f"First zero in sequence found at {tuple(coord)}")
 
@@ -56,7 +55,6 @@ def tetrimino_fitter(pieces: list, grid_shape: tuple, verbose: bool = False) -> 
                 (-1 in p)
                 or (np.max(p[:, 0]) > (grid.shape[0] - 1))
                 or (np.max(p[:, 1]) > (grid.shape[1] - 1))
-                # or (np.sum(np.all(coord == occupied_space_array, axis=1)) != 0)
             ):
                 # Get the test fit
                 test_fit = np.array([grid[x, y] for x, y in p])
@@ -89,7 +87,7 @@ def get_piece_coordinates(piece: str):
     return c
 
 
-def pieces_generator(grid_shape: tuple, rotation=True):
+def pieces_generator(grid_shape: tuple, rotation=True) -> list:
     n_filled = 0
     max_fitness = grid_shape[0] * grid_shape[1]
     pieces = []
@@ -133,8 +131,7 @@ class Population(BasePopulation):
         separation_fitness = 0
         if 0 in grid:
             empties = np.column_stack(np.where(grid == 0))
-            # empties = np.clip(euclidean_distances(empties) - 1, a_min=0, a_max=None)
-            empties = np.clip(manhattan_distances(empties) - 1, a_min=0, a_max=None)
+            empties = manhattan_distances(empties)
             # The closer the empty spaces are, the smaller the distances.
             separation_fitness = np.sum(empties)
         # update individual's fitness

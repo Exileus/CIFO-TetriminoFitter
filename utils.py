@@ -1,6 +1,8 @@
 from tetris_main import Population
 import plotly.graph_objects as go
 import numpy as np
+import plotly.express as px
+
 
 def plot_grid(
     population: Population,
@@ -56,4 +58,20 @@ def plot_grid(
     if save_png_name != None:
         fig.write_image(f"graphs/{save_png_name}.png", scale=2)
 
+    fig.show()
+
+
+def plot_fitness(population: Population, save_html_name=None, save_png_name=None):
+    fig = px.line(
+        population.fitness_history,
+        title="",
+        labels={"index": "Generation", "value": "Fitness"},
+        width=600,
+        height=300,
+    )
+    fig.update_layout(yaxis_tickformat="0", margin=dict(l=60, r=40, t=20, b=0))
+    if save_html_name != None:
+        fig.write_html(f"graphs/{save_html_name}.html")
+    if save_png_name != None:
+        fig.write_image(f"graphs/{save_png_name}.png", scale=2)
     fig.show()
