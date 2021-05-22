@@ -87,20 +87,52 @@ def get_piece_coordinates(piece: str):
     return c
 
 
-def pieces_generator(grid_shape: tuple, rotation=True) -> list:
-    n_filled = 0
-    max_fitness = grid_shape[0] * grid_shape[1]
-    pieces = []
-
-    while n_filled < max_fitness:
-        piece_type = random.choice(list(T_DICT.keys()))
-        if rotation:
+def pieces_generator(grid_shape: tuple, rotation=True):
+    # list of all pieces
+    pieces_types = perfect_block4(grid_shape)
+    if rotation:
+        for i in range(len(pieces_types)):
             piece_rotation = str(random.randint(1, 4))
-            pieces.append(piece_type + piece_rotation)
-        else:
-            pieces.append(piece_type)
-        n_filled += 4
-    return pieces
+            pieces_types[i] += piece_rotation
+
+    random.shuffle(pieces_types)
+
+    return pieces_types
+
+
+def perfect_block4(grid_shape: tuple):
+    """Select random blocks 4x4 with a perfect pieces match.
+
+    Args:
+        grid_shape (tuple): (x, y)
+    Returns:
+        list: Pieces types to be used
+    """
+
+    possible_blocks = [["O", "O", "O", "O"],
+                       ["I", "J", "T", "T"],
+                       ["Z", "Z", "L", "L"],
+                       ["T", "T", "Z", "L"],
+                       ["I", "I", "I", "I"],
+                       ["I", "I", "O", "O"],
+                       ["O", "L", "J", "I"],
+                       ["T", "T", "T", "T"],
+                       ["S", "L", "L", "I"],
+                       ["Z", "L", "J", "I"],
+                       ["S", "S", "J", "J"],
+                       ["S", "T", "T", "J"]]
+
+    max_fitness = grid_shape[0] * grid_shape[1]
+
+    n_filled = 0
+    chosen_blocks = []
+    while n_filled < max_fitness:
+        block = random.choice(possible_blocks)
+        chosen_blocks.append(block)
+        n_filled += 4 ** 2
+
+    # return flatten list with all the pieces
+    return [item for block in chosen_blocks for item in block]
 
 
 class Population(BasePopulation):
