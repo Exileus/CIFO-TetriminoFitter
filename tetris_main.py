@@ -44,6 +44,9 @@ def tetrimino_fitter(pieces: list, grid_shape: tuple, verbose: bool = False) -> 
             np.where(grid == 0)
         )  # this can be used to find the coordinates of all the zeros, and have them stored.
         for coord in free_space_array:
+            occupied_space_array = np.column_stack(
+                np.where(grid == 1)
+            )
             if verbose:
                 print(f"First zero in sequence found at {tuple(coord)}")
 
@@ -53,8 +56,9 @@ def tetrimino_fitter(pieces: list, grid_shape: tuple, verbose: bool = False) -> 
             # check that piece is not out of bounds
             if not (
                 (-1 in p)
-                or (max(p[:, 0]) > (grid.shape[0] - 1))
-                or (max(p[:, 1]) > (grid.shape[1] - 1))
+                or (np.max(p[:, 0]) > (grid.shape[0] - 1))
+                or (np.max(p[:, 1]) > (grid.shape[1] - 1))
+                # or (np.sum(np.all(coord == occupied_space_array, axis=1)) != 0)
             ):
                 # Get the test fit
                 test_fit = np.array([grid[x, y] for x, y in p])
@@ -128,14 +132,13 @@ class Population(BasePopulation):
         # calculate fitness
         grid, _ = tetrimino_fitter(rep, self.grid_shape)
         occupation_fitness =  np.sum(grid) * 100
+        separation_fitness = 0
         if 0 in grid:
             empties = np.column_stack(
                 np.where(grid == 0)
             ) 
             # The closer the empty spaces are, the smaller the distances.
             separation_fitness = np.sum(manhattan_distances(empties))
-        else:
-            separation_fitness = 0
         # update individual's fitness
         individual.fitness = occupation_fitness - separation_fitness
 
@@ -162,12 +165,27 @@ class Population(BasePopulation):
                 representation[i] = letter + str(random.choice(valid_set_c))
         return representation
 
-    def mutation(self, representation, p_mutation, n_mutations) -> list:
+    def mutation_swap(self, representation, p_mutation, n_mutations) -> list:
         representation = mut.swap_mutation(representation, p_mutation, n_mutations)
-        # representation = self.orientation_mutation(representation, p_mutation)
         return representation
 
-    def crossover(self, p1, p2, p_crossover: float):
+    def mutation_inverted(self, representation, p_mutation) -> list:
+        representation = mut.inversion_mutation(representation, p_mutation)
+        return representation
+
+    def crossover(self, p1: Individual, p2: Individual, p_crossover: float, crossover_type: "cycle or pmx" = "pmx"):
+        """Crossover algorithm. Either applies cycle crossover or partially matched crossover.
+
+        Args:
+            p1 (Individual): parent 1
+            p2 (Individual): parent 2
+            p_crossover (float): probability of crossing over
+            crossover_type (cycle or pmx, optional): string cycle or pmx. Defaults to "pmx".
+
+        Returns:
+            o1, o2: offspring1, offspring2 (or parents if no crossover)
+        """
+
         if random.random() < p_crossover:
             # Creating index system
             p1_dict = {i: l+str(n) for i, (l, n) in enumerate(p1)}
@@ -182,7 +200,10 @@ class Population(BasePopulation):
             p1_encoded = list(p1_dict.keys())
             p2_encoded = list(p2_dict.keys())
             # run crossover
-            o1, o2 = co.pmx_co(p1_encoded, p2_encoded)
+            if crossover_type == "cycle":
+                o1, o2 = co.cycle_co(p1_encoded, p2_encoded)
+            else:
+                o1, o2 = co.pmx_co(p1_encoded, p2_encoded)
             # Recreate from index
             for i, o in enumerate(o1):
                 if o == p1_encoded[i]:
@@ -213,5 +234,5 @@ class Population(BasePopulation):
 def generate_individual(valid_list: list, grid_shape: tuple) -> Individual:
     ind = [Individual([letter+str(random.randint(0, 3)) for letter in random.sample(valid_list, len(valid_list))])]
     pop = Population(ind, "max", n_elites=1, valid_set=valid_list, grid_shape=grid_shape)
-    hill_climb(pop, hardstop=5)
+    hill_climb(pop, hardstop=1)
     return pop.elites[0]

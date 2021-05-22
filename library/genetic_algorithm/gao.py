@@ -1,3 +1,4 @@
+from logging import raiseExceptions
 import random, copy
 from library.main import Individual
 import numpy as np
@@ -7,7 +8,9 @@ def GAO(
     pop,
     generations: int,
     tournament_size: int,
+    crossover_type: "cycle/pmx" = "pmx",
     p_crossover: float = 0.1,
+    mutation_type: "swap/inverted" = "swap",
     p_mutation: float = 0.05,
     n_mutations: int = 1,
     p_rot_mut: float = 0.1,
@@ -41,11 +44,14 @@ def GAO(
             i1, i2 = pop.selection(tournament_size), pop.selection(tournament_size)
 
             # Apply crossover ~ probability is given to function
-            i1, i2 = pop.crossover(i1, i2, p_crossover)
+            i1, i2 = pop.crossover(i1, i2, p_crossover, crossover_type)
 
             for i in [i1, i2]:
                 # Apply mutation ~ probability is given to function
-                i = pop.mutation(i, p_mutation, n_mutations)
+                if mutation_type == "swap":
+                    i = pop.mutation_swap(i, p_mutation, n_mutations)
+                elif mutation_type == "inverted":
+                    i = pop.mutation_inverted(i, p_mutation)
                 i = pop.orientation_mutation(i, p_rot_mut)
                 # Create individual and get its fitness
                 i = Individual(representation=i)
