@@ -1,11 +1,12 @@
 from logging import raiseExceptions
 import random, copy
 from library.main import Individual
+from tetris_main import Population
 import numpy as np
 
 
 def GAO(
-    pop,
+    pop: Population,
     generations: int,
     selection_type: "tournament/fps" = "tournament",
     tournament_size: int = 2,
@@ -16,6 +17,7 @@ def GAO(
     n_mutations: int = 1,
     p_rot_mut: float = 0.1,
     p_adoption: float = 0.01,
+    hc_hardstop: int = 0,
     verbose=False,
 ):
     m = -1 if pop.optimization == "min" else 1
@@ -45,7 +47,7 @@ def GAO(
             if selection_type == "tournament":
                 i1, i2 = pop.selection_tournament(tournament_size), pop.selection_tournament(tournament_size)
             else:
-                i1, i2 = pop.selection_fps(tournament_size), pop.selection_fps(tournament_size)
+                i1, i2 = pop.selection_fps(), pop.selection_fps()
             # Apply crossover ~ probability is given to function
             i1, i2 = pop.crossover(i1, i2, p_crossover, crossover_type)
 
@@ -63,7 +65,7 @@ def GAO(
                     pop_prime.append(i)
             # Create a probability where parents can adopt a new
             if (len(pop_prime) < len(pop.individuals)) and (
-                (adopted_i := pop.adoption(p_adoption)) != None
+                (adopted_i := pop.adoption(p_adoption, hc_hardstop=hc_hardstop)) != None
             ):
                 pop.fitness(adopted_i)
                 pop_prime.append(adopted_i)

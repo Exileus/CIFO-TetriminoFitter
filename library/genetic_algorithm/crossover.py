@@ -26,10 +26,7 @@ def cycle_co(p1: list, p2: list) -> tuple:
             offspring1[idx] = p1[idx]
             offspring2[idx] = p2[idx]
             idx = p2.index(p1[idx])
-    print(offspring1)
-    print(r_len)
     o1 = [offspring1[i] for i in range(r_len)]
-    print(o1)
     o2 = [offspring2[i] for i in range(r_len)]
     return o1, o2
 

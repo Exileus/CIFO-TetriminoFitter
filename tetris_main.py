@@ -5,7 +5,7 @@ from library.main import Individual, BasePopulation
 import library.genetic_algorithm.selection as sel
 import library.genetic_algorithm.mutation as mut
 import library.genetic_algorithm.crossover as co
-from sklearn.metrics.pairwise import manhattan_distances
+from sklearn.metrics.pairwise import manhattan_distances, euclidean_distances
 
 T_DICT = {
     "I": [(0, 0), (1, 0), (2, 0), (3, 0)],
@@ -44,9 +44,7 @@ def tetrimino_fitter(pieces: list, grid_shape: tuple, verbose: bool = False) -> 
             np.where(grid == 0)
         )  # this can be used to find the coordinates of all the zeros, and have them stored.
         for coord in free_space_array:
-            occupied_space_array = np.column_stack(
-                np.where(grid == 1)
-            )
+            occupied_space_array = np.column_stack(np.where(grid == 1))
             if verbose:
                 print(f"First zero in sequence found at {tuple(coord)}")
 
@@ -93,7 +91,7 @@ def get_piece_coordinates(piece: str):
 
 def pieces_generator(grid_shape: tuple, rotation=True):
     n_filled = 0
-    max_fitness = grid_shape[0]* grid_shape[1]
+    max_fitness = grid_shape[0] * grid_shape[1]
     pieces = []
 
     while n_filled < max_fitness:
@@ -131,14 +129,14 @@ class Population(BasePopulation):
         rep = individual.representation
         # calculate fitness
         grid, _ = tetrimino_fitter(rep, self.grid_shape)
-        occupation_fitness =  np.sum(grid) * 100
+        occupation_fitness = np.sum(grid) * 100
         separation_fitness = 0
         if 0 in grid:
-            empties = np.column_stack(
-                np.where(grid == 0)
-            ) 
+            empties = np.column_stack(np.where(grid == 0))
+            # empties = np.clip(euclidean_distances(empties) - 1, a_min=0, a_max=None)
+            empties = np.clip(manhattan_distances(empties) - 1, a_min=0, a_max=None)
             # The closer the empty spaces are, the smaller the distances.
-            separation_fitness = np.sum(manhattan_distances(empties))
+            separation_fitness = np.sum(empties)
         # update individual's fitness
         individual.fitness = occupation_fitness - separation_fitness
 
@@ -176,7 +174,13 @@ class Population(BasePopulation):
         representation = mut.inversion_mutation(representation, p_mutation)
         return representation
 
-    def crossover(self, p1: Individual, p2: Individual, p_crossover: float, crossover_type: "cycle or pmx" = "pmx"):
+    def crossover(
+        self,
+        p1: Individual,
+        p2: Individual,
+        p_crossover: float,
+        crossover_type: "cycle or pmx" = "pmx",
+    ):
         """Crossover algorithm. Either applies cycle crossover or partially matched crossover.
 
         Args:
@@ -191,13 +195,13 @@ class Population(BasePopulation):
 
         if random.random() < p_crossover:
             # Creating index system
-            p1_dict = {i: l+str(n) for i, (l, n) in enumerate(p1)}
+            p1_dict = {i: l + str(n) for i, (l, n) in enumerate(p1)}
             tmp = p1_dict.copy()
             p2_dict = {}
             for i, (l, n) in enumerate(p2):
                 for key, value in tmp.items():
                     if value[0] == l:
-                        p2_dict[key] = l+str(n)
+                        p2_dict[key] = l + str(n)
                         del tmp[key]
                         break
             p1_encoded = list(p1_dict.keys())
@@ -222,7 +226,7 @@ class Population(BasePopulation):
         else:
             return p1, p2
 
-    def adoption(self, p_adoption: float) -> Individual:
+    def adoption(self, p_adoption: float, hc_hardstop: int = 0) -> Individual:
         """How likely some parents can adopt an Individual
 
         Args:
@@ -232,10 +236,25 @@ class Population(BasePopulation):
             Individual
         """
         if random.random() <= p_adoption:
-            return Individual([piece+str(random.randint(0, 3)) for piece in random.sample(self.valid_set, len(self.valid_set))])
+            ind = generate_individual(
+                self.valid_set, self.grid_shape, hc_hardstop=hc_hardstop
+            )
+            return ind
 
-def generate_individual(valid_list: list, grid_shape: tuple) -> Individual:
-    ind = [Individual([letter+str(random.randint(0, 3)) for letter in random.sample(valid_list, len(valid_list))])]
-    pop = Population(ind, "max", n_elites=1, valid_set=valid_list, grid_shape=grid_shape)
-    hill_climb(pop, hardstop=1)
+
+def generate_individual(
+    valid_list: list, grid_shape: tuple, hc_hardstop: int = 0
+) -> Individual:
+    ind = [
+        Individual(
+            [
+                letter + str(random.randint(0, 3))
+                for letter in random.sample(valid_list, len(valid_list))
+            ]
+        )
+    ]
+    pop = Population(
+        ind, "max", n_elites=1, valid_set=valid_list, grid_shape=grid_shape
+    )
+    hill_climb(pop, hardstop=hc_hardstop)
     return pop.elites[0]
