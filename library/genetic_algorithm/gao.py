@@ -7,7 +7,8 @@ import numpy as np
 def GAO(
     pop,
     generations: int,
-    tournament_size: int,
+    selection_type: "tournament/fps" = "tournament",
+    tournament_size: int = 2,
     crossover_type: "cycle/pmx" = "pmx",
     p_crossover: float = 0.1,
     mutation_type: "swap/inverted" = "swap",
@@ -41,8 +42,10 @@ def GAO(
         # Evolve the rest of the population
         while len(pop_prime) < len(pop.individuals):
             # Select parents from population the representations of the parents
-            i1, i2 = pop.selection(tournament_size), pop.selection(tournament_size)
-
+            if selection_type == "tournament":
+                i1, i2 = pop.selection_tournament(tournament_size), pop.selection_tournament(tournament_size)
+            else:
+                i1, i2 = pop.selection_fps(tournament_size), pop.selection_fps(tournament_size)
             # Apply crossover ~ probability is given to function
             i1, i2 = pop.crossover(i1, i2, p_crossover, crossover_type)
 

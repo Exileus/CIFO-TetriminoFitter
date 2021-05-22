@@ -154,8 +154,11 @@ class Population(BasePopulation):
             indv[i], indv[i + 1] = indv[i + 1], indv[i]
         individual.neighbours = [Individual(n) for n in neighbours]
 
-    def selection(self, *args, **kwargs):
+    def selection_tournament(self, *args, **kwargs):
         return sel.tournament(self, *args, **kwargs)
+
+    def selection_fps(self, *args, **kwargs):
+        return sel.fps(self, *args, **kwargs)
 
     def orientation_mutation(self, representation: list, p_mutation: float) -> list:
         for i, (letter, number) in enumerate(representation):
