@@ -20,7 +20,7 @@ def plot_grid(
         population (Population): population
         grid: Grid filled
         pieces_coordinates (list): coordinates of each piece in grid
-        save_html_name (str, optional): If name given, saves to file. Defaults to None.
+        save_html_name (str, optional): If path given, saves to file (do not include file). Defaults to None.
         save_png_name (str, optional): If name given, saves to file with scale 2. Defaults to None.
         marker_size (int, optional): Increase or decrease marker size depending on grid size. Defaults to 50.
         width (int, optional): Width. Defaults to 600.
@@ -58,9 +58,9 @@ def plot_grid(
     )
     fig.update_layout(showlegend=False)
     if save_html_name != None:
-        fig.write_html(f"graphs/{save_html_name}.html")
+        fig.write_html(f"{save_html_name}.html")
     if save_png_name != None:
-        fig.write_image(f"graphs/{save_png_name}.png", scale=2)
+        fig.write_image(f"{save_png_name}.png", scale=2)
 
     fig.show()
 
@@ -75,7 +75,7 @@ def plot_fitness(fitness_history, save_html_name=None, save_png_name=None):
     )
     fig.update_layout(yaxis_tickformat="0", margin=dict(l=60, r=40, t=20, b=0))
     if save_html_name != None:
-        fig.write_html(f"graphs/{save_html_name}.html")
+        fig.write_html(f"{save_html_name}.html")
     if save_png_name != None:
-        fig.write_image(f"graphs/{save_png_name}.png", scale=2)
+        fig.write_image(f"{save_png_name}.png", scale=2)
     fig.show()
