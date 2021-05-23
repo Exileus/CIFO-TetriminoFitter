@@ -5,9 +5,9 @@ import plotly.express as px
 
 
 def plot_grid(
-    population: Population,
     grid,
     pieces_coordinates: list,
+    population: Population = None,
     save_html_name: str = None,
     save_png_name: str = None,
     marker_size: int = 50,
@@ -26,6 +26,10 @@ def plot_grid(
         width (int, optional): Width. Defaults to 600.
         height (int, optional): Height. Defaults to 600.
     """
+    if population != None:
+        title = f"<b>Fitness:</b> {int(population.elites[0].fitness)}/{int(np.sum(100*np.ones_like(grid)))}<br><b>Pieces used:</b> {len(pieces_coordinates)}/{len(population.valid_set)}"
+    else:
+        title = ""
     fig = go.Figure(
         data=[
             go.Scatter(
@@ -41,7 +45,7 @@ def plot_grid(
             margin=dict(l=00, r=00, t=80, b=0),
             width=width,
             height=height,
-            title=f"<b>Fitness:</b> {int(population.elites[0].fitness)}/{int(np.sum(100*np.ones_like(grid)))}<br><b>Pieces used:</b> {len(pieces_coordinates)}/{len(population.valid_set)}",
+            title=title,
             xaxis=dict(
                 range=[-0.5, grid.shape[1] - 0.5], fixedrange=True, showticklabels=False
             ),
