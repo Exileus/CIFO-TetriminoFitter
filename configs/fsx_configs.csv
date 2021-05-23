@@ -1,0 +1,12 @@
+,A
+generations,30
+selection_type,tournament
+tournament_size,2
+crossover_type,pmx
+p_crossover,0.1
+mutation_type,swap
+p_mutation,0.05
+n_mutations,1
+p_rot_mut,0.1
+p_adoption,0.01
+hc_hardstop,0
