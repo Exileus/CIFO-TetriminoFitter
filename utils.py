@@ -27,7 +27,7 @@ def plot_grid(
         height (int, optional): Height. Defaults to 600.
     """
     if population != None:
-        title = f"<b>Fitness:</b> {int(population.elites[0].fitness)}/{int(np.sum(100*np.ones_like(grid)))}<br><b>Pieces used:</b> {len(pieces_coordinates)}/{len(population.valid_set)}"
+        title = f"<b>Fitness:</b> {int(population.elites[0].fitness)}/{int(np.sum(100*np.ones_like(grid)))}<br><b>Pieces used:</b> {len(pieces_coordinates)}/{grid.size}"
     else:
         title = ""
     fig = go.Figure(
@@ -50,7 +50,7 @@ def plot_grid(
                 range=[-0.5, grid.shape[1] - 0.5], fixedrange=True, showticklabels=False
             ),
             yaxis=dict(
-                range=[-0.5, grid.shape[0] - 0.5],
+                range=[grid.shape[0] - 0.5, -0.5],
                 tickfont_size=12,
                 showticklabels=False,
             ),
