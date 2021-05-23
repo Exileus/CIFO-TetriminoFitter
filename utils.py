@@ -26,7 +26,10 @@ def plot_grid(
         width (int, optional): Width. Defaults to 600.
         height (int, optional): Height. Defaults to 600.
     """
-    title = f"<b>Fitness:</b> {int(ind_fitness)}/{int(np.sum(100*np.ones_like(grid)))}<br><b>Pieces used:</b> {len(pieces_coordinates)}/{grid.size}"
+    if ind_fitness != None:
+        title = f"<b>Fitness:</b> {int(ind_fitness)}/{int(np.sum(100*np.ones_like(grid)))}<br><b>Pieces used:</b> {len(pieces_coordinates)}/{grid.size//4}"
+    else:
+        title = ""
     fig = go.Figure(
         data=[
             go.Scatter(
