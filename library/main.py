@@ -1,5 +1,6 @@
 from typing import Any
 import numpy as np
+import copy
 
 
 class BasePopulation:
@@ -21,7 +22,7 @@ class BasePopulation:
         Raises:
             ValueError: [description]
         """
-        self.individuals = individuals
+        self.individuals = copy.deepcopy(individuals)
         self.optimization = optimization.lower()
         self.n_elites = n_elites
         self.valid_set = valid_set
