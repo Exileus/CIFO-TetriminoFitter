@@ -1,0 +1,11 @@
+SR Ratio Results
+
+The max possible fitness was 3600.
+The best fitness achieved was 3600.
+Total runs: 50
+Ratio of Successful Runs / Performed Runs:
+Always CX               0.40
+Always Mutate           0.36
+Always Mutate and CX    0.40
+Normal Rate             0.38
+One representative individual of best fitness is: ['L1', 'S1', 'L2', 'S0', 'O3', 'L0', 'S3', 'S2', 'L3'], with 3600.0 fitness.
