@@ -1,3 +1,4 @@
+from statistics import mode
 from tetris_main import Population
 import plotly.graph_objects as go
 import numpy as np
@@ -7,7 +8,7 @@ import plotly.express as px
 def plot_grid(
     grid,
     pieces_coordinates: list,
-    ind_fitness = None,
+    ind_fitness=None,
     save_html_name: str = None,
     save_png_name: str = None,
     marker_size: int = 50,
@@ -65,15 +66,27 @@ def plot_grid(
     fig.show()
 
 
-def plot_fitness(fitness_history, save_html_name=None, save_png_name=None):
+def plot_fitness(
+    fitness_history,
+    save_html_name=None,
+    save_png_name=None,
+    width: int = 600,
+    height: int = 400,
+    max_fitness = None,
+):
+    if max_fitness != None:
+        title = f"Max Fitness: {max_fitness}"
+    else:
+        title = ""
     fig = px.line(
         fitness_history,
-        title="",
+        title=title,
         labels={"index": "Generation", "value": "Fitness"},
-        width=600,
-        height=300,
+        width=width,
+        height=height,
     )
-    fig.update_layout(yaxis_tickformat="0", margin=dict(l=60, r=40, t=20, b=0))
+    fig.update_traces(dict(mode="lines"))
+    fig.update_layout(yaxis_tickformat="0", yaxis_range=[fitness_history.min()[0], max_fitness],margin=dict(l=60, r=40, t=40, b=0))
     if save_html_name != None:
         fig.write_html(f"{save_html_name}.html")
     if save_png_name != None:

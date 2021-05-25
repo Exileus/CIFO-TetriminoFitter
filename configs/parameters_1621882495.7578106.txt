@@ -1,0 +1,154 @@
+grid_shape = (12, 12)
+pieces_list = ['T', 'T', 'J', 'I', 'I', 'L', 'O', 'T', 'S', 'I', 'T', 'T', 'L', 'I', 'T', 'S', 'T', 'O', 'J', 'T', 'T', 'O', 'I', 'J', 'I', 'S', 'Z', 'O', 'O', 'S', 'J', 'O', 'J', 'T', 'I', 'Z']
+
+Universal Parameters
+pop_size: 20
+n_elites: 2
+iterations: 5
+generations: 50
+
+Config Parameters:
+Name: 0_fps_cycle[0.0]_swap[0.0,1]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: swap, p_mutation: 0.0, n_mutations: 1, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 1_fps_cycle[0.0]_swap[0.0,1]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: swap, p_mutation: 0.0, n_mutations: 1, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 2_fps_cycle[0.0]_swap[0.0,5]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: swap, p_mutation: 0.0, n_mutations: 5, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 3_fps_cycle[0.0]_swap[0.0,5]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: swap, p_mutation: 0.0, n_mutations: 5, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 4_fps_cycle[0.0]_swap[0.5,1]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: swap, p_mutation: 0.5, n_mutations: 1, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 5_fps_cycle[0.0]_swap[0.5,1]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: swap, p_mutation: 0.5, n_mutations: 1, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 6_fps_cycle[0.0]_swap[0.5,5]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: swap, p_mutation: 0.5, n_mutations: 5, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 7_fps_cycle[0.0]_swap[0.5,5]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: swap, p_mutation: 0.5, n_mutations: 5, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 8_fps_cycle[0.0]_swap[1.0,1]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: swap, p_mutation: 1.0, n_mutations: 1, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 9_fps_cycle[0.0]_swap[1.0,1]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: swap, p_mutation: 1.0, n_mutations: 1, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 10_fps_cycle[0.0]_swap[1.0,5]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: swap, p_mutation: 1.0, n_mutations: 5, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 11_fps_cycle[0.0]_swap[1.0,5]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: swap, p_mutation: 1.0, n_mutations: 5, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 12_fps_cycle[0.0]_inverted[0.0,1]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: inverted, p_mutation: 0.0, n_mutations: 1, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 13_fps_cycle[0.0]_inverted[0.0,1]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: inverted, p_mutation: 0.0, n_mutations: 1, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 14_fps_cycle[0.0]_inverted[0.0,5]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: inverted, p_mutation: 0.0, n_mutations: 5, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 15_fps_cycle[0.0]_inverted[0.0,5]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: inverted, p_mutation: 0.0, n_mutations: 5, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 16_fps_cycle[0.0]_inverted[0.5,1]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: inverted, p_mutation: 0.5, n_mutations: 1, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 17_fps_cycle[0.0]_inverted[0.5,1]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: inverted, p_mutation: 0.5, n_mutations: 1, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 18_fps_cycle[0.0]_inverted[0.5,5]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: inverted, p_mutation: 0.5, n_mutations: 5, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 19_fps_cycle[0.0]_inverted[0.5,5]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: inverted, p_mutation: 0.5, n_mutations: 5, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 20_fps_cycle[0.0]_inverted[1.0,1]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: inverted, p_mutation: 1.0, n_mutations: 1, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 21_fps_cycle[0.0]_inverted[1.0,1]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: inverted, p_mutation: 1.0, n_mutations: 1, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 22_fps_cycle[0.0]_inverted[1.0,5]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: inverted, p_mutation: 1.0, n_mutations: 5, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 23_fps_cycle[0.0]_inverted[1.0,5]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 0.0, mutation_type: inverted, p_mutation: 1.0, n_mutations: 5, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 24_fps_cycle[1.0]_swap[0.0,1]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: swap, p_mutation: 0.0, n_mutations: 1, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 25_fps_cycle[1.0]_swap[0.0,1]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: swap, p_mutation: 0.0, n_mutations: 1, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 26_fps_cycle[1.0]_swap[0.0,5]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: swap, p_mutation: 0.0, n_mutations: 5, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 27_fps_cycle[1.0]_swap[0.0,5]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: swap, p_mutation: 0.0, n_mutations: 5, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 28_fps_cycle[1.0]_swap[0.5,1]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: swap, p_mutation: 0.5, n_mutations: 1, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 29_fps_cycle[1.0]_swap[0.5,1]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: swap, p_mutation: 0.5, n_mutations: 1, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 30_fps_cycle[1.0]_swap[0.5,5]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: swap, p_mutation: 0.5, n_mutations: 5, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 31_fps_cycle[1.0]_swap[0.5,5]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: swap, p_mutation: 0.5, n_mutations: 5, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 32_fps_cycle[1.0]_swap[1.0,1]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: swap, p_mutation: 1.0, n_mutations: 1, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 33_fps_cycle[1.0]_swap[1.0,1]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: swap, p_mutation: 1.0, n_mutations: 1, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 34_fps_cycle[1.0]_swap[1.0,5]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: swap, p_mutation: 1.0, n_mutations: 5, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 35_fps_cycle[1.0]_swap[1.0,5]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: swap, p_mutation: 1.0, n_mutations: 5, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 36_fps_cycle[1.0]_inverted[0.0,1]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: inverted, p_mutation: 0.0, n_mutations: 1, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 37_fps_cycle[1.0]_inverted[0.0,1]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: inverted, p_mutation: 0.0, n_mutations: 1, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 38_fps_cycle[1.0]_inverted[0.0,5]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: inverted, p_mutation: 0.0, n_mutations: 5, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 39_fps_cycle[1.0]_inverted[0.0,5]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: inverted, p_mutation: 0.0, n_mutations: 5, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 40_fps_cycle[1.0]_inverted[0.5,1]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: inverted, p_mutation: 0.5, n_mutations: 1, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 41_fps_cycle[1.0]_inverted[0.5,1]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: inverted, p_mutation: 0.5, n_mutations: 1, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 42_fps_cycle[1.0]_inverted[0.5,5]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: inverted, p_mutation: 0.5, n_mutations: 5, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 43_fps_cycle[1.0]_inverted[0.5,5]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: inverted, p_mutation: 0.5, n_mutations: 5, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 44_fps_cycle[1.0]_inverted[1.0,1]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: inverted, p_mutation: 1.0, n_mutations: 1, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 45_fps_cycle[1.0]_inverted[1.0,1]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: inverted, p_mutation: 1.0, n_mutations: 1, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 46_fps_cycle[1.0]_inverted[1.0,5]_rot[0.0]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: inverted, p_mutation: 1.0, n_mutations: 5, p_rot_mut: 0.0, p_adoption: 0.1, hc_hardstop: 0, }
+
+Name: 47_fps_cycle[1.0]_inverted[1.0,5]_rot[0.1]_adpt[0.1]
+{generations: 50, selection_type: fps, tournament_size: 6, crossover_type: cycle, p_crossover: 1.0, mutation_type: inverted, p_mutation: 1.0, n_mutations: 5, p_rot_mut: 0.1, p_adoption: 0.1, hc_hardstop: 0, }
+

@@ -1,3 +1,4 @@
+from matplotlib.pyplot import grid
 from library.hill_climbing.hc import hill_climb
 import numpy as np
 import random
@@ -90,12 +91,12 @@ def get_piece_coordinates(piece: str):
 def pieces_generator(grid_shape: tuple, rotation=True):
     # list of all pieces
     pieces_types = perfect_block4(grid_shape)
+    random.shuffle(pieces_types)
     if rotation:
         for i in range(len(pieces_types)):
             piece_rotation = str(random.randint(1, 4))
             pieces_types[i] += piece_rotation
 
-    random.shuffle(pieces_types)
 
     return pieces_types
 
@@ -108,7 +109,8 @@ def perfect_block4(grid_shape: tuple):
     Returns:
         list: Pieces types to be used
     """
-
+    assert (grid_shape[0] % 4 == 0) & (grid_shape[1] % 4 == 0), "grid shapes must be multiples of 4"
+    n_blocks = grid_shape[0]//4 * grid_shape[1]//4
     possible_blocks = [["O", "O", "O", "O"],
                        ["I", "J", "T", "T"],
                        ["Z", "Z", "L", "L"],
@@ -121,18 +123,7 @@ def perfect_block4(grid_shape: tuple):
                        ["Z", "L", "J", "I"],
                        ["S", "S", "J", "J"],
                        ["S", "T", "T", "J"]]
-
-    max_fitness = grid_shape[0] * grid_shape[1]
-
-    n_filled = 0
-    chosen_blocks = []
-    while n_filled < max_fitness:
-        block = random.choice(possible_blocks)
-        chosen_blocks.append(block)
-        n_filled += 4 ** 2
-
-    # return flatten list with all the pieces
-    return [item for block in chosen_blocks for item in block]
+    return [piece for sublist in random.choices(possible_blocks, k=n_blocks) for piece in sublist]
 
 
 class Population(BasePopulation):
@@ -272,7 +263,7 @@ class Population(BasePopulation):
 
 
 def generate_individual(
-    valid_list: list, grid_shape: tuple, hc_hardstop: int = 0
+    valid_list: list, grid_shape: tuple, hc_hardstop: int = 0, hc=False, 
 ) -> Individual:
     ind = [
         Individual(
@@ -282,8 +273,11 @@ def generate_individual(
             ]
         )
     ]
-    pop = Population(
-        ind, "max", n_elites=1, valid_set=valid_list, grid_shape=grid_shape
-    )
-    hill_climb(pop, hardstop=hc_hardstop)
-    return pop.elites[0]
+    if hc:
+        pop = Population(
+            ind, "max", n_elites=1, valid_set=valid_list, grid_shape=grid_shape
+        )
+        hill_climb(pop, hardstop=hc_hardstop)
+        return pop.elites[0]
+    else:
+        return ind[0]

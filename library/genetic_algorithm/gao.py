@@ -24,9 +24,6 @@ def GAO(
     for _ in range(generations):
         for i in pop.individuals:
             pop.fitness(i)
-        if verbose:
-            print("ELITES:", pop.elites)
-            print("ALL:", pop.individuals)
         pop.fitness_history.append(
             sorted(pop.individuals, key=lambda i: i.fitness * m, reverse=True)[
                 0
@@ -37,15 +34,16 @@ def GAO(
             pop_prime = copy.deepcopy(
                 sorted(pop.individuals, key=lambda i: i.fitness * m, reverse=True)
             )[: pop.n_elites]
-            if verbose:
-                print("elite @ prime:", pop_prime)
         else:
             pop_prime = []
         # Evolve the rest of the population
         while len(pop_prime) < len(pop.individuals):
             # Select parents from population the representations of the parents
             if selection_type == "tournament":
-                i1, i2 = pop.selection_tournament(tournament_size), pop.selection_tournament(tournament_size)
+                i1, i2 = (
+                    pop.selection_tournament(tournament_size),
+                    pop.selection_tournament(tournament_size),
+                )
             else:
                 i1, i2 = pop.selection_fps(), pop.selection_fps()
             # Apply crossover ~ probability is given to function
@@ -62,7 +60,7 @@ def GAO(
                 i = Individual(representation=i)
                 pop.fitness(i)
                 if len(pop_prime) < len(pop.individuals):
-                    pop_prime.append(i)
+                    pop_prime.append(copy.deepcopy(i))
             # Create a probability where parents can adopt a new
             if (len(pop_prime) < len(pop.individuals)) and (
                 (adopted_i := pop.adoption(p_adoption, hc_hardstop=hc_hardstop)) != None
@@ -70,21 +68,15 @@ def GAO(
                 pop.fitness(adopted_i)
                 pop_prime.append(adopted_i)
         pop.individuals = copy.deepcopy(pop_prime)
-        if verbose:
-            print(sorted(pop.individuals, key=lambda i: i.fitness * m, reverse=True))
 
         # Sort all individuals by fitness
-        elites = copy.deepcopy(
-            sorted(pop.individuals, key=lambda i: i.fitness * m, reverse=True)
-        )
-
+        elites = sorted(pop.individuals, key=lambda i: i.fitness * m, reverse=True)
         # if we're using elitism, keep the best N elites
         if pop.n_elites > 0:
-            pop.elites = elites[: pop.n_elites]
+            pop.elites = copy.deepcopy(elites[: pop.n_elites])
 
         # keep the best individual of population
         else:
-            pop.elites = elites[0]
-
+            pop.elites = copy.deepcopy(elites[0])
         if verbose:
-            print()
+            print(f"GEN {_} ELITES: {pop.elites}")
