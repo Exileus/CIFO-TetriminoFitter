@@ -180,10 +180,9 @@ class Population(BasePopulation):
         Args:
             individual (Individual): initiated individual class
         """
-        # simplify code
-        rep = individual.representation
+
         # calculate fitness
-        grid, _ = tetrimino_fitter(rep, self.grid_shape)
+        grid, _ = tetrimino_fitter(individual.representation, self.grid_shape)
         occupation_fitness = np.sum(grid) * 100
         compactness_fitness = 0
         if 0 in grid:
@@ -248,10 +247,11 @@ class Population(BasePopulation):
         """
 
         if random.random() < p_crossover:
-            # Creating index system
+            # Create index system with the <letter> position for p1
             p1_dict = {i: l + str(n) for i, (l, n) in enumerate(p1)}
             tmp = p1_dict.copy()
             p2_dict = {}
+            # Get the number positions based on index created from p1
             for i, (l, n) in enumerate(p2):
                 for key, value in tmp.items():
                     if value[0] == l:
