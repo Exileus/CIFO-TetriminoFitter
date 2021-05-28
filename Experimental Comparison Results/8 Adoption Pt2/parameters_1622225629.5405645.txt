@@ -1,0 +1,19 @@
+grid_shape = (10, 4)
+pieces_list = ['T', 'Z', 'T', 'T', 'T', 'I', 'S', 'Z', 'L', 'I']
+
+Universal Parameters
+pop_size: 20
+n_elites: 2
+iterations: 30
+generations: 100
+
+Config Parameters:
+Name: High Adoption (0.3)
+{generations: 100, selection_type: tournament, tournament_size: 5, crossover_type: cycle, p_crossover: 1, mutation_type: swap, p_mutation: 0.4, n_mutations: 1, p_rot_mut: 0.25, p_adoption: 0.3, hc_hardstop: 0, }
+
+Name: Frequent Adoption (0.5)
+{generations: 100, selection_type: tournament, tournament_size: 5, crossover_type: cycle, p_crossover: 1, mutation_type: swap, p_mutation: 0.4, n_mutations: 1, p_rot_mut: 0.25, p_adoption: 0.5, hc_hardstop: 0, }
+
+Name: Always adopt
+{generations: 100, selection_type: tournament, tournament_size: 5, crossover_type: cycle, p_crossover: 1, mutation_type: swap, p_mutation: 0.4, n_mutations: 1, p_rot_mut: 0.25, p_adoption: 1, hc_hardstop: 0, }
+
