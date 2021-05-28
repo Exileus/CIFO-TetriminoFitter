@@ -1,0 +1,9 @@
+SR Ratio Results
+
+The max possible fitness was 2000.
+The best fitness achieved was 2000.
+Total runs: 30
+Ratio of Successful Runs / Performed Runs:
+Frequent Adoption (0.5)    1.0
+Common Adoption (0.3)      1.0
+One representative individual of best fitness is: ['T2', 'L0', 'T3', 'I3', 'Z0'], with 2000.0 fitness.
