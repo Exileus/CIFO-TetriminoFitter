@@ -11,6 +11,6 @@ Tetris Block Puzzle Solver with GA optimization.
 
 
 ### Main lecturer:
-Prof. Leonardo Vanneschi
+- Prof. Leonardo Vanneschi
 ### Assistant professors:
-- Davide Montali
+- Prof. Davide Montali
