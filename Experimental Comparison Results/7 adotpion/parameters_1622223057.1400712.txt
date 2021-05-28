@@ -1,0 +1,19 @@
+grid_shape = (6, 6)
+pieces_list = ['L', 'S', 'S', 'L', 'L', 'S', 'S', 'L', 'O']
+
+Universal Parameters
+pop_size: 20
+n_elites: 2
+iterations: 50
+generations: 110
+
+Config Parameters:
+Name: High Adoption (0.3)
+{generations: 110, selection_type: tournament, tournament_size: 5, crossover_type: cycle, p_crossover: 1, mutation_type: swap, p_mutation: 0.4, n_mutations: 1, p_rot_mut: 0.25, p_adoption: 0.3, hc_hardstop: 0, }
+
+Name: Some Adoption (0.15)
+{generations: 110, selection_type: tournament, tournament_size: 5, crossover_type: cycle, p_crossover: 1, mutation_type: swap, p_mutation: 0.4, n_mutations: 1, p_rot_mut: 0.25, p_adoption: 0.15, hc_hardstop: 0, }
+
+Name: No adoption
+{generations: 110, selection_type: tournament, tournament_size: 5, crossover_type: cycle, p_crossover: 1, mutation_type: swap, p_mutation: 0.4, n_mutations: 1, p_rot_mut: 0.25, p_adoption: 0, hc_hardstop: 0, }
+
