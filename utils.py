@@ -72,7 +72,7 @@ def plot_fitness(
     save_png_name=None,
     width: int = 600,
     height: int = 400,
-    max_fitness = None,
+    max_fitness=None,
 ):
     if max_fitness != None:
         title = f"Max Fitness: {max_fitness}"
@@ -86,7 +86,11 @@ def plot_fitness(
         height=height,
     )
     fig.update_traces(dict(mode="lines"))
-    fig.update_layout(yaxis_tickformat="0", yaxis_range=[fitness_history.min()[0], max_fitness],margin=dict(l=60, r=40, t=40, b=0))
+    fig.update_layout(
+        yaxis_tickformat="0",
+        yaxis_range=[fitness_history.min()[0], max_fitness],
+        margin=dict(l=60, r=40, t=40, b=0),
+    )
     if save_html_name != None:
         fig.write_html(f"{save_html_name}.html")
     if save_png_name != None:
