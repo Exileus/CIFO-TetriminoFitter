@@ -71,8 +71,21 @@ def tetrimino_fitter(pieces: list, grid_shape: tuple, verbose: bool = False) -> 
     return grid, pieces_coordinates
 
 
-def get_piece_coordinates(piece: str):
+def get_piece_coordinates(piece: str) -> np.array:
+    """
+    Transforms a given piece configuration (given by t_dict, or a tensor of coordinates) and returns that transformation. 
+    Piece is the tensor that represents the piece configuration.
+    Rotation is the desired rotation for the piece. As it is defined, 2 is 90 degree rotation clockwise, 3 is 180, and 4 is 270. 
 
+    Args:
+        piece (str): <letter><number
+
+    Returns:
+        c (np.array): numpy array with coordinates
+
+    """
+
+    # If rotation is a string, transform it into integer...
     piece_type = piece[0]
     c = np.array(T_DICT[piece_type])
     rotation = int(piece[1])
@@ -88,7 +101,21 @@ def get_piece_coordinates(piece: str):
     return c
 
 
-def pieces_generator(grid_shape: tuple, rotation=True):
+def pieces_generator(grid_shape: tuple, rotation=True) -> list:
+    """Generate a list of pieces that fit into a grid with shape
+    given by the tuple (x,y) from grid_shape.
+    If rotation=True, generates a list of strings <letter><number>.
+    Ex: [I1, S0, L3]
+    If rotation=False, only generates a list of strings <letter>.
+    Ex: [I, S, L]
+
+    Args:
+        grid_shape (tuple): [description]
+        rotation (bool, optional): [description]. Defaults to True.
+
+    Returns:
+        pieces_types (list): list of pieces (str)
+    """
     # list of all pieces
     pieces_types = perfect_block4(grid_shape)
     random.shuffle(pieces_types)
@@ -96,7 +123,6 @@ def pieces_generator(grid_shape: tuple, rotation=True):
         for i in range(len(pieces_types)):
             piece_rotation = str(random.randint(1, 4))
             pieces_types[i] += piece_rotation
-
 
     return pieces_types
 
@@ -109,21 +135,29 @@ def perfect_block4(grid_shape: tuple):
     Returns:
         list: Pieces types to be used
     """
-    assert (grid_shape[0] % 4 == 0) & (grid_shape[1] % 4 == 0), "grid shapes must be multiples of 4"
-    n_blocks = grid_shape[0]//4 * grid_shape[1]//4
-    possible_blocks = [["O", "O", "O", "O"],
-                       ["I", "J", "T", "T"],
-                       ["Z", "Z", "L", "L"],
-                       ["T", "T", "Z", "L"],
-                       ["I", "I", "I", "I"],
-                       ["I", "I", "O", "O"],
-                       ["O", "L", "J", "I"],
-                       ["T", "T", "T", "T"],
-                       ["S", "L", "L", "I"],
-                       ["Z", "L", "J", "I"],
-                       ["S", "S", "J", "J"],
-                       ["S", "T", "T", "J"]]
-    return [piece for sublist in random.choices(possible_blocks, k=n_blocks) for piece in sublist]
+    assert (grid_shape[0] % 4 == 0) & (
+        grid_shape[1] % 4 == 0
+    ), "grid shapes must be multiples of 4"
+    n_blocks = grid_shape[0] // 4 * grid_shape[1] // 4
+    possible_blocks = [
+        ["O", "O", "O", "O"],
+        ["I", "J", "T", "T"],
+        ["Z", "Z", "L", "L"],
+        ["T", "T", "Z", "L"],
+        ["I", "I", "I", "I"],
+        ["I", "I", "O", "O"],
+        ["O", "L", "J", "I"],
+        ["T", "T", "T", "T"],
+        ["S", "L", "L", "I"],
+        ["Z", "L", "J", "I"],
+        ["S", "S", "J", "J"],
+        ["S", "T", "T", "J"],
+    ]
+    return [
+        piece
+        for sublist in random.choices(possible_blocks, k=n_blocks)
+        for piece in sublist
+    ]
 
 
 class Population(BasePopulation):
@@ -263,8 +297,19 @@ class Population(BasePopulation):
 
 
 def generate_individual(
-    valid_list: list, grid_shape: tuple, hc_hardstop: int = 0, hc=False, 
+    valid_list: list, grid_shape: tuple, hc_hardstop: int = 0, hc=False,
 ) -> Individual:
+    """Generates individual
+
+    Args:
+        valid_list (list): List of pieces to place
+        grid_shape (tuple): shape
+        hc_hardstop (int, optional): [description]. Defaults to 0.
+        hc (bool, optional): [description]. Defaults to False.
+
+    Returns:
+        Individual: [description]
+    """
     ind = [
         Individual(
             [
