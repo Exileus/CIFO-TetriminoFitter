@@ -73,6 +73,8 @@ def plot_fitness(
     width: int = 600,
     height: int = 400,
     max_fitness=None,
+    filename=None,
+    save_json=False,
 ):
     if max_fitness != None:
         title = f"Max Fitness: {max_fitness}"
@@ -84,6 +86,7 @@ def plot_fitness(
         labels={"index": "Generation", "value": "Fitness"},
         width=width,
         height=height,
+        template="plotly_white"
     )
     fig.update_traces(dict(mode="lines"))
     fig.update_layout(
@@ -95,4 +98,6 @@ def plot_fitness(
         fig.write_html(f"{save_html_name}.html")
     if save_png_name != None:
         fig.write_image(f"{save_png_name}.png", scale=2)
+    if (save_json) & (filename != None):
+        fig.write_json(f"{filename}.plotly")
     fig.show()
